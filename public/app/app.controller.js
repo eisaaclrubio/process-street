@@ -29,7 +29,7 @@ function processController($scope, $http) {
     }
 
     // Override fileupload
-    $scope.uploadButton.fileupload({
+    $scope.uploadButton = {
         url: 'https://upload.wistia.com/',
         // Override "add" method to submit after selecting a file
         add: function (e, data) {
@@ -45,17 +45,18 @@ function processController($scope, $http) {
             $('.panel-body').css('height', 'auto');
             // Default acceptFiles is not working
             if($scope.isAnAcceptedFile(data)){
-                // Submit and use done to detect when the video was completly uploaded
-                data.submit().done(function (result, textStatus, jqXHR) {
-                    $scope.playVideo(result.hashed_id);
-                    $scope.progressBar = {'display': 'none'};
-                    $scope.progress = {'width' : '0%'};
-                    $scope.$apply();
-                    angular.element('.panel-body').append('<div class="wistia_embed">&nbsp;</div>');
-                    angular.element('.wistia_embed').addClass('wistia_async_' + result.hashed_id);
-                    angular.element('.panel-body').css('height', '525px');
-                });
+                // Submit
+                data.submit();
             }
+        },
+        done: function (e, data) {
+            $scope.playVideo(data.result.hashed_id);
+            $scope.progressBar = {'display': 'none'};
+            $scope.progress = {'width' : '0%'};
+            $scope.$apply();
+            angular.element('.panel-body').append('<div class="wistia_embed">&nbsp;</div>');
+            angular.element('.wistia_embed').addClass('wistia_async_' + data.result.hashed_id);
+            angular.element('.panel-body').css('height', '525px');
         },
         // Control to display progress bar
         start: function (e, data) {
@@ -76,5 +77,5 @@ function processController($scope, $http) {
             $scope.$apply();
             alert('You have reached the limit for uploaded videos');
         }
-    });
+    };
 };
