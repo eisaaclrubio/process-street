@@ -18,6 +18,16 @@ function processController($scope, $http) {
         });
     };
 
+    // Override acceptFileTypes
+    $scope.isAnAcceptedFile = function(data) {
+        var acceptFileTypes = /(\.|\/)(avi|wmv|flv|mp4|mov)$/i;
+        if(data.originalFiles[0]['type'].length && !acceptFileTypes.test(data.originalFiles[0]['type'])) {
+            alert('The file you are trying to upload is not a video');
+            return false;
+        }
+        return true;
+    }
+
     // Override fileupload
     $scope.uploadButton.fileupload({
         url: 'https://upload.wistia.com/',
@@ -33,15 +43,18 @@ function processController($scope, $http) {
                 angular.element('.wistia_embed').remove();
             }
             $('.panel-body').css('height', 'auto');
-            // Submit and use done to detect when the video was completly uploaded
-            data.submit().done(function (result, textStatus, jqXHR) {
-                $scope.playVideo(result.hashed_id);
-                $scope.progressBar = {'display': 'none'};
-                $scope.$apply();
-                angular.element('.panel-body').append('<div class="wistia_embed">&nbsp;</div>');
-                angular.element('.wistia_embed').addClass('wistia_async_' + result.hashed_id);
-                angular.element('.panel-body').css('height', '525px');
-            });
+            // Default acceptFiles is not working
+            if($scope.isAnAcceptedFile(data)){
+                // Submit and use done to detect when the video was completly uploaded
+                data.submit().done(function (result, textStatus, jqXHR) {
+                    $scope.playVideo(result.hashed_id);
+                    $scope.progressBar = {'display': 'none'};
+                    $scope.$apply();
+                    angular.element('.panel-body').append('<div class="wistia_embed">&nbsp;</div>');
+                    angular.element('.wistia_embed').addClass('wistia_async_' + result.hashed_id);
+                    angular.element('.panel-body').css('height', '525px');
+                });
+            }
         },
         // Control to display progress bar
         start: function (e, data) {
@@ -67,11 +80,6 @@ function processController($scope, $http) {
 };
 
 angular.module('processApp', ['blueimp.fileupload'])
-    .config(['$httpProvider', 'fileUploadProvider', function ($httpProvider, fileUploadProvider) {
-            angular.extend(fileUploadProvider.defaults, {
-                acceptFileTypes: /(\.|\/)(avi|wmv|flv|mp4|mov)$/i
-            });
-    }])
     .controller('processController', processController)
     .component('processComponent', {
         templateUrl: 'partials/process-component.html',
