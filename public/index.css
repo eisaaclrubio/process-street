@@ -9,3 +9,17 @@
 .spaced-element {
     margin-top: 25px;
 }
+
+.wistia_embed {
+    position: relative;
+    top: 75px;
+    left: 50%;
+    width: 640px;
+    height: 360px;
+    margin-left: -320px;
+}
+
+.wistia_embed > div {
+    position: relative;
+    top: -145px !important;
+}

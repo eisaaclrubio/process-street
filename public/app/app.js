@@ -1,15 +1,36 @@
 function processController($scope, $http) {
         // Setting myValues variable  
         $scope.myValues = {};
+
+        // Starts the embedded video from wistia
+        $scope.playVideo = function(id) {
+            window._wq = window._wq || [];
+            _wq.push({ id: id, 
+                onReady: function(video) {
+                    video.bind('play', function() {
+                        video.time(0);
+                        return video.unbind;
+                    });
+                }
+            });
+        };
    
         // Override "add" method to submit after selecting a file
         $scope.submitFile = function () {
             $('#fileupload').fileupload({
                 add: function (e, data) {
+                    // If a video exists is removed to start new embedded video
+                    if ($('.wistia_embed').length) {
+                        $('.wistia_embed').remove();
+                    }
+                    $('.panel-body').css('height', 'auto');
                     // Submit and use done to detect when the video was completly uploaded
                     var jqXHR = data.submit()
                         .done(function (result, textStatus, jqXHR) {
-                            console.log(result.hashed_id);
+                            $scope.playVideo(result.hashed_id);
+                            $('.panel-body').append('<div class="wistia_embed">&nbsp;</div>');
+                            $('.wistia_embed').addClass('wistia_async_' + result.hashed_id);
+                            $('.panel-body').css('height', '525px');
                         });
                 }
             });
