@@ -1,1 +1,25 @@
-<h1>{{ myVariable }}</h1>
+<form id="fileupload" action="https://upload.wistia.com/" method="POST" enctype="multipart/form-data" data-file-upload="options" data-ng-class="{'fileupload-processing': processing()}">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            Upload Your Video!
+        </div>
+        <div class="panel-body">
+            <span class="card-title">Title</span>
+            <!-- Binds videoName to detect if a name was introduced in the input -->
+            <input class="form-control" type="text" name="video" ng-model="myValues.videoName">
+            <div class="col-lg-12 text-center spaced-element">
+                <button class="btn btn-primary start fileinput-button" ng-class="{disabled: myValues.videoName == undefined}">
+                        <i class="glyphicon glyphicon-upload"></i>
+                    <span>Upload</span>
+                    <!-- Disables the input file if there's no name for the video -->
+                    <input id="my-file" type="file" name="file" ng-disabled="myValues.videoName == undefined">
+                </button>   
+            </div>
+            <!-- Progress Bar-->
+            <div class="col-lg-12 text-center fade spaced-element" data-ng-class="{in: active()}">
+                <div class="progress progress-striped active" data-file-upload-progress="progress()"><div class="progress-bar progress-bar-success" data-ng-style="{width: num + '%'}"></div></div>
+                <div class="progress-extended">&nbsp;</div>
+            </div>
+        </div>
+    </div>
+</form>
