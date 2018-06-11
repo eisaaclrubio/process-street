@@ -35,6 +35,13 @@ function processController($scope, $http) {
                 }
             });
         };
+
+        // Prevent submit when enter key is press
+        $("form").bind("keypress", function (e) {
+            if (e.keyCode == 13) {
+                e.preventDefault();
+            }
+        });
     
         // Add event when Upload button is clicked
         $('#my-file').change($scope.submitFile); 
