@@ -1,0 +1,11 @@
+#fileupload {
+    width: 50vw;
+    min-width: 640px;
+    position: relative;
+    left: 50%;
+    margin-left: -25vw;
+}
+
+.spaced-element {
+    margin-top: 25px;
+}

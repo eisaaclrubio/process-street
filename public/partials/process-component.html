@@ -8,12 +8,13 @@
             <!-- Binds videoName to detect if a name was introduced in the input -->
             <input class="form-control" type="text" name="video" ng-model="myValues.videoName">
             <div class="col-lg-12 text-center spaced-element">
-                <button class="btn btn-primary start fileinput-button" ng-class="{disabled: myValues.videoName == undefined}">
+                <!-- Use of div instead of button due to firefox support -->
+                <div class="btn btn-primary start fileinput-button" ng-class="{disabled: myValues.videoName == undefined}">
                         <i class="glyphicon glyphicon-upload"></i>
                     <span>Upload</span>
                     <!-- Disables the input file if there's no name for the video -->
                     <input id="my-file" type="file" name="file" ng-disabled="myValues.videoName == undefined">
-                </button>   
+                </div>   
             </div>
             <!-- Progress Bar-->
             <div class="col-lg-12 text-center fade spaced-element" data-ng-class="{in: active()}">
