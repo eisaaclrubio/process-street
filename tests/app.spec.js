@@ -1,12 +1,10 @@
 'use strict';
-
 describe('Component: processComponent', function () {
-
+  var $component, scope, ctrl, element, data;
+  
   // load the controller's module
   beforeEach(angular.mock.module('processApp'));
   beforeEach(angular.mock.module('process-component.html'));
-
-  var $component, scope, ctrl, element, data;
 
   // Initialize the controller and mock data
   beforeEach(inject(function ($rootScope, $compile, _$componentController_) {

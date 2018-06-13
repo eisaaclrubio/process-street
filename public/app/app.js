@@ -1,3 +1,4 @@
+// Component Creation
 angular.module('processApp', ['blueimp.fileupload'])
     .controller('processController', processController)
     .component('processComponent', {

@@ -1,5 +1,5 @@
 function processController($scope, $http) {
-    // Setting myValues variable 
+    // Declaring variables
     $scope.myValues = {};
     $scope.uploadButton = angular.element('#myUpload');
     $scope.barType = 'progress-bar-success';
